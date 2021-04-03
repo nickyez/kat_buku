@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php 
+    session_start();
+    include('../koneksi/koneksi.php');
+    if(isset($_SESSION['id_kategori_buku'])){
+        $id_kategori_buku = $_SESSION['id_kategori_buku'];
+        $kategori_buku = $_POST['kategori_buku'];
+        if(empty($kategori_buku)){
+            header("Location:editkategoribuku.php?data=".$id_kategori_buku."&notif=editkosong");
+        }else{
+            $sql = "UPDATE `kategori_buku` SET `kategori_buku`='$kategori_buku' WHERE `id_kategori_buku`='$id_kategori_buku'";
+            mysqli_query($koneksi, $sql);
+            header("Location:kategoribuku.php?notif=editberhasil");
+        }
+    }
+?>
 <?php include("includes/head.php") ?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -44,23 +59,33 @@
       <div class="col-sm-10">
           <div class="alert alert-danger" role="alert">Maaf data Kategori Buku wajib di isi</div>
       </div>
-      <form class="form-horizontal">
-        <div class="card-body">
-          <div class="form-group row">
-            <label for="Kategori Buku" class="col-sm-3 col-form-label">Kategori Buku</label>
-            <div class="col-sm-7">
-              <input type="text" class="form-control" id="Kategori Buku" value="Website">
-            </div>
-          </div>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          <div class="col-sm-10">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-save"></i> Simpan</button>
-          </div>  
-        </div>
-        <!-- /.card-footer -->
-      </form>
+      <?php if(!empty($_GET['notif'])){?>
+          <?php if($_GET['notif']=="editkosong"){?>
+            <div class="alert alert-danger" role="alert">
+            Maaf data kategori buku wajib di isi</div>
+          <?php }?>
+      <?php }?>
+      <form class="form-horizontal" method="post"
+action="konfirmasieditkategoribuku.php">
+<div class="card-body">
+<div class="form-group row">
+<label for="kategori_buku" class="col-sm-3 col-form-label">
+Kategori Buku</label>
+<div class="col-sm-7">
+<input type="text" class="form-control" id="kategori_buku"
+Name="kategori_buku" value="<?php echo $kategori_buku;?>">
+</div>
+</div>
+</div>
+<!-- /.card-body -->
+<div class="card-footer">
+<div class="col-sm-10">
+<button type="submit" class="btn btn-info float-right">
+<i class="fas fa-save"></i> Simpan</button>
+</div>
+</div>
+<!-- /.card-footer -->
+</form>
     </div>
     <!-- /.card -->
 
@@ -76,3 +101,4 @@
 <?php include("includes/script.php") ?>
 </body>
 </html>
+
