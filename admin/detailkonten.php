@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<?php include("includes/head.php") ?> 
+<!DOCTYPE html> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -23,61 +20,109 @@
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item"><a href="konten.php">Data Konten</a></li>
               <li class="breadcrumb-item active">Detail Data Konten</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+<?php
+  session_start();
+  include('../koneksi/koneksi.php');
+    if(isset($_GET['data'])){
+      $id_konten = $_GET['data'];
+      $_SESSION['id_konten']=$id_konten;
+        
+      //get data konten
+      $sql_d = "SELECT  `tanggal`, `judul`, `isi` 
+                FROM `konten` 
+                WHERE `id_konten` = '$id_konten'";
+      $query_d = mysqli_query($koneksi,$sql_d);
+      while($data_d = mysqli_fetch_row($query_d)){
+        $id_konten= $data_d[0];
+        $tanggal= $data_d[1];
+        $judul= $data_d[2];
+        $isi= $data_d[3];
+      }
+  }
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <?php include("includes/head.php") ?> 
+  </head>
+  <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+    <?php include("includes/header.php") ?>
 
-    <!-- Main content -->
-    <section class="content">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-tools">
-                  <a href="konten.php" class="btn btn-sm btn-warning float-right">
-                  <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-                </div>
+      <?php include("includes/sidebar.php") ?>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h3><i class="fas fa-user-tie"></i> Detail Data Konten</h3>
               </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered">
-                    <tbody>                
-                      <tr>
-                        <td width="20%"><strong>Tanggal<strong></td>
-                        <td width="80%">24-02-2021</td>
-                      </tr>
-                      <tr>
-                        <td width="20%"><strong>Judul<strong></td>
-                        <td width="80%">About Us</td>
-                      </tr> 
-                      <tr>
-                        <td width="20%"><strong>Sinopsis<strong></td>
-                        <td width="80%">Lorem Ipsum is simply dummy text of the printing and typesetting 
-                        industry. Lorem Ipsum has been the industry's standard dummy text ever since the 
-                        1500s, when an unknown printer took a galley of type and scrambled it to make 
-                        a type specimen book. It has survived not only five centuries, but also the 
-                        leap into electronic typesetting, remaining essentially unchanged. It was popularised 
-                        in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
-                        and more recently with desktop publishing software like Aldus PageMaker including
-                         versions of Lorem Ipsum.</td>
-                      </tr> 
-                    </tbody>
-                  </table>  
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item"><a href="konten.php">Data Konten</a></li>
+                  <li class="breadcrumb-item active">Detail Data Konten</li>
+                </ol>
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">&nbsp;</div>
             </div>
-            <!-- /.card -->
+          </div><!-- /.container-fluid -->
+        </section>
 
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <?php include("includes/footer.php") ?>
+        <!-- Main content -->
+        <section class="content">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-tools">
+                      <a href="konten.php" class="btn btn-sm btn-warning float-right">
+                      <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+                    </div>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <table class="table table-bordered">
+                      <tbody>
+                        <?php
+                          $sql_k = "SELECT `id_konten`, `tanggal`, `judul`, `isi` FROM `konten`";
+                          $query_k = mysqli_query($koneksi,$sql_k);
+                          while ($data_k = mysqli_fetch_row($query_k)) {
+                            $id_konten = $data_k[0];
+                            $tanggal = $data_k[1];
+                            $judul = $data_k[2];
+                            $isi = $data_k[3];
+                        ?>                
+                        <tr>
+                          <td width="20%"><strong>Tanggal<strong></td>
+                          <td width="80%"><?php echo $tanggal; ?></td>
+                        </tr>
+                        <tr>
+                          <td width="20%"><strong>Judul<strong></td>
+                          <td width="80%"><?php echo $judul; ?></td>
+                        </tr> 
+                        <tr>
+                          <td width="20%"><strong>Sinopsis<strong></td>
+                          <td width="80%"><?php echo $isi; ?></td>
+                        </tr> 
+                      <?php } ?>
+                      </tbody>
+                    </table>  
+                  </div>
+                  <!-- /.card-body -->
+                  <div class="card-footer clearfix">&nbsp;</div>
+                </div>
+                <!-- /.card -->
 
-</div>
-<!-- ./wrapper -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <?php include("includes/footer.php") ?>
 
-<?php include("includes/script.php") ?>
-</body>
+    </div>
+    <!-- ./wrapper -->
+
+    <?php include("includes/script.php") ?>
+  </body>
 </html>
