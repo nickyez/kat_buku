@@ -35,27 +35,30 @@
       <div class="card-header">
         <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Tambah Penerbit</h3>
         <div class="card-tools">
-          <a href="tag.php" class="btn btn-sm btn-warning float-right"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+          <a href="penerbit.php" class="btn btn-sm btn-warning float-right"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
       </div>
       <!-- /.card-header -->
       <!-- form start -->
       </br>
-      <div class="col-sm-10">
-          <div class="alert alert-danger" role="alert">Maaf data penerbit wajib di isi</div>
-      </div>
-      <form class="form-horizontal">
+      <?php if(!empty($_GET['notif'])){?>
+        <?php if($_GET['notif']=="tambahkosong"){?>
+        <div class="alert alert-danger" role="alert">
+        Maaf data penerbit wajib diisi</div>
+        <?php }?>
+      <?php }?>
+      <form class="form-horizontal" method="post" action="konfirmasitambahpenerbit.php">
         <div class="card-body">
           <div class="form-group row">
-            <label for="tag" class="col-sm-3 col-form-label">Penerbit</label>
+            <label for="penerbit" class="col-sm-3 col-form-label">Penerbit</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="tag" value="">
+              <input type="text" class="form-control" id="penerbit" name="penerbit" value="">
             </div>
           </div>
           <div class="form-group row">
-            <label for="isi" class="col-sm-3 col-form-label">Alamat</label>
+            <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
             <div class="col-sm-7">
-              <textarea class="form-control" name="alamat" id="editor1" rows="12"></textarea>
+              <textarea class="form-control" name="alamat" id="alamat" rows="12"></textarea>
             </div>
           </div>
         </div>
